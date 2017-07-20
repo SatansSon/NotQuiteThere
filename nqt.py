@@ -160,7 +160,11 @@ def run(program,inputs=[]):
         print(char.join(map(str, stack)))
         return
     else:
-        char = chr(char)
+        try:
+            char = chr(char)
+        except:
+            print(char)
+            return
     print(char.join(map(chr, map(abs, stack))))
 
 prog = sys.argv[1]
