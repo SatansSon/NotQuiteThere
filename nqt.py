@@ -51,6 +51,8 @@ def parse(code):
                 nums.append(temp)
                 temp = ''
             nums.append(char)
+            
+        x += 1
 
     if temp:
         nums.append(temp)
