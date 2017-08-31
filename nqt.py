@@ -198,12 +198,8 @@ def run(program,inputs=[]):
     char = stack.pop()
     if char == 0:
         char = ''
-    elif char == -1:
-        char = abs(stack.pop())
-        if char == 0:
-            char = ''
-        else:
-            char = chr(char)
+    elif char < 0:
+        char = chr(abs(char))
         print(char.join(map(str, stack)))
         return
     else:
