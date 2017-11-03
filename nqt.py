@@ -200,7 +200,7 @@ def run(program,inputs=[]):
         char = ''
     elif char < 0:
         char = chr(abs(char))
-        print(char.join(map(str, stack)))
+        print(char.join(map(str, stack[::-1])))
         return
     else:
         try:
