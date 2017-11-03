@@ -1,6 +1,7 @@
-import sys
-import itertools
+import functools
 import math
+import operator
+import sys
 
 class Stack(list):
     def push(self,*values):
@@ -161,7 +162,7 @@ def run(program,inputs=[]):
         if char == 'S':
             stack.push(sum(stack))
         if char == 'P':
-            stack.push(itertools.product(stack))
+            stack.push(functools.reduce(operator.mul, stack))
         if char == '|':
             stack.push(abs(stack.pop()))
         if char == 'f':
