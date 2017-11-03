@@ -108,6 +108,7 @@ def run(program,inputs=[]):
     stack = Stack()
     stack.push(*inputs)
     popmath = True
+    mapcmd = False
     printed = False
     loop_depth = 0
     program = parse(program)
@@ -128,9 +129,18 @@ def run(program,inputs=[]):
 
         if char in '-*%/^':
             if popmath:
-                stack.push(eval('stack.pop() {} stack.pop()'.format(char.replace('^','**'))))
+                if mapcmd:
+                    element = stack.pop()
+                    for i in range(len(stack)):
+                        stack[i] = eval('element {} stack[i]'.format(char.replace('^','**')))
+                else:
+                    stack.push(eval('stack.pop() {} stack.pop()'.format(char.replace('^','**'))))
             else:
-                stack.push(eval('stack[-1] {} stack[-2]'.format(char.replace('^','**'))))
+                if mapcmd:
+                    for i in range(len(stack)):
+                        stack[i] = eval('stack[-1] {} stack[i]'.format(char.replace('^','**')))
+                else:
+                    stack.push(eval('stack[-1] {} stack[-2]'.format(char.replace('^','**'))))
 
         if char == '[':
             loop_depth += 1
@@ -142,6 +152,21 @@ def run(program,inputs=[]):
                 index = firstNindex(program, '[', loop_depth)
             else:
                 loop_depth -= 1
+
+        if mapcmd:
+            for i in range(len(stack)):
+                if char == 'n':
+                    stack[i] = not stack[i]
+                if char == 'i':
+                    stack[i] = int(stack[i])
+                if char == '|':
+                    stack[i] = abs(stack[i])
+                if char == 'f':
+                    stack[i] = math.factorial(stack[i])
+                if char == '\\':
+                    stack[i] = 1.0 / stack[i]
+                if char == 'I':
+                    stack[i] = isinstance(stack[i], int) or stack[i].is_integer()
 
         if char == 's':
             stack.sort()
@@ -158,7 +183,7 @@ def run(program,inputs=[]):
         if char == 'i':
             stack.push(int(stack.pop()))
         if char == 'R':
-            stack.push(range(1,stack.pop()+1))
+            stack.push(*range(1,stack.pop()+1))
         if char == 'S':
             stack.push(sum(stack))
         if char == 'P':
@@ -185,11 +210,15 @@ def run(program,inputs=[]):
         if char == 'M':
             stack.push(max(stack.pop()))
         if char == 'x':
-            popmath = True
+            popmath = not popmath
         if char == 'X':
-            popmath = False
+            mapcmd = not mapcmd
         if char == '?':
             return
+        if char == ':':
+            stack.push(stack[-1])
+        if char == 'I':
+            stack.push(isinstance(stack.pop(), int) or stack[i].is_integer())
 
         index += 1
 
@@ -199,10 +228,12 @@ def run(program,inputs=[]):
     char = stack.pop()
     if char == 0:
         return print(*stack)
-    elif char < 0:
+    elif char < -1:
         char = chr(abs(char))
         print(char.join(map(str, stack[::-1])))
         return
+    elif char == -1:
+        char = ''
     else:
         try:
             char = chr(char)
