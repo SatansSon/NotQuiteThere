@@ -104,15 +104,18 @@ def firstNindex(string, char, N):
             return i
     return -1
 
-def run(program,inputs=[]):
+def run(program, inputs=()):
     stack = Stack()
-    stack.push(*inputs)
+    program = parse(program)
     popmath = True
     mapcmd = False
     printed = False
     loop_depth = 0
-    program = parse(program)
     index = 0
+    register = 0
+    
+    stack.push(*inputs)
+    
     while index < len(program):
 
         char = program[index]
@@ -219,6 +222,10 @@ def run(program,inputs=[]):
             stack.push(stack[-1])
         if char == 'I':
             stack.push(isinstance(stack.pop(), int) or stack[i].is_integer())
+        if char == 'Z':
+            register = stack.pop()
+        if char == 'z':
+            stack.push(register)
 
         index += 1
 
