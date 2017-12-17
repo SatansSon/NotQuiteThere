@@ -200,13 +200,13 @@ def run(program, inputs=()):
         if char == 'l':
             stack.push(len(stack))
         if char == 'o':
-            print(stack.pop())
+            print(end=str(stack.pop()))
             printed = True
         if char == 'O':
             print(stack)
             printed = True
         if char == 'w':
-            print(chr(stack.pop()))
+            print(end=chr(stack.pop()))
             printed = True
         if char == 'm':
             stack.push(min(stack.pop()))
