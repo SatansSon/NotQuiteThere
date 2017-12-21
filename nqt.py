@@ -236,13 +236,11 @@ def run(program, inputs=()):
 
     char = stack.pop()
     if char == 0:
-        return print(*stack)
+        char == ''
     elif char < -1:
         char = chr(abs(char))
         print(char.join(map(str, stack[::-1])))
         return
-    elif char == -1:
-        char = ''
     else:
         try:
             char = chr(char)
