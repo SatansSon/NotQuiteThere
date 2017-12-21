@@ -187,6 +187,8 @@ def run(program, inputs=()):
             stack.push(int(stack.pop()))
         if char == 'R':
             stack.push(*range(1,stack.pop()+1))
+        if char == 'y':
+            stack.push(*range(stack.pop(),stack.pop()+1))
         if char == 'S':
             stack.push(sum(stack))
         if char == 'P':
