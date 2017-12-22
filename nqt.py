@@ -236,8 +236,8 @@ def run(program, inputs=()):
 
     char = stack.pop()
     if char == 0:
-        char == ''
-    elif char < -1:
+        char = ''
+    elif char < 0:
         char = chr(abs(char))
         print(char.join(map(str, stack[::-1])))
         return
