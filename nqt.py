@@ -228,6 +228,8 @@ def run(program, inputs=()):
             register = stack.pop()
         if char == 'z':
             stack.push(register)
+        if char == '`':
+            stack.push(stack.pop(), stack.pop())
 
         index += 1
 
