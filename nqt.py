@@ -230,6 +230,8 @@ def run(program, inputs=()):
             stack.push(register)
         if char == '`':
             stack.push(stack.pop(), stack.pop())
+        if char == 'A':
+            stack.push(*inputs)
 
         index += 1
 
